@@ -1,33 +1,48 @@
 @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&display=swap');
 
 body {
+    margin:0;
     font-family: 'Cabin';
-    background-color: #758190;
+    background-color: #4A5E3D;
 }
 
 #tentacles {
+    height:50px;
     width: 50px;
 }
 
 .header {
+    /*overflow: hidden;*/
     display: flex;
-    background-color: lightblue;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    background-color: #2E3A24;
     padding: 1%;
     align-items: center;
     margin-left: -10px;
     margin-right: -10px;
     margin-top: -10px;
+    color:rgb(142, 161, 142);
+}
+.logo {
+    display:flex;
+    align-items:center;
+
 }
 
 .stats-container {
     display: flex;
     align-items: flex-start;
+   
+}
+.stats-container:hover {
     cursor: pointer;
-    box-shadow: 0 0 30px 0px lightblue;
+    box-shadow: 0 0 30px 0px rgb(173, 230, 208);
 }
 
 .stats-card {
-    background-color: #a8b0bc;
+    background-color: #6B8E23;
     border-radius: 7px;
     padding: 1%;
     margin: 1%;
@@ -48,11 +63,11 @@ body {
 .game-img {
     width: 100%;
     border-radius: 5px;
-    box-shadow: 0 0 10px #FFFFFF;
+    box-shadow: 0 0 10px #A9DFBF;
 }
 
 .game-card {
-    background-color: #FFFFFF;
+    background-color: #A9DFBF;
     padding: 1%;
     margin: 1%;
     width: 300px;
@@ -62,7 +77,7 @@ body {
 
 .game-card:hover {
     cursor: pointer;
-    box-shadow: 0 0 30px lightblue;
+    box-shadow: 0 0 30px #A9DFBF;
 }
 
 #button-container {
@@ -75,4 +90,53 @@ button {
     padding: 1%;
     margin: 1%;
     border-radius: 7px;
+}
+
+#top-games .game-card{
+    display:flex;
+    margin:auto;
+}
+
+#top-games .game-card:hover{
+    box-shadow: none;
+}
+
+#nav-item {
+    text-decoration: none;
+    color:black;
+    font-size: 20px;
+    margin-left:10px;
+    color: rgb(189, 212, 189);
+}
+
+
+#nav-item:hover {
+    text-decoration: none;
+    color:white;
+}
+
+#search {
+    height: 35px;
+    width: 250px;
+    border-radius: 7px;
+    border: none;
+    background-color:rgb(224, 224, 224);
+    padding: 1%;
+    
+}
+
+#games-heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 20px;
+    background-color:#6B8E23;
+    margin-top: 20px;;
+}
+
+#background {
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+    row-gap: 10px;
+    padding-left: 20px;
 }

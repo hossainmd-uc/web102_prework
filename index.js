@@ -27,38 +27,33 @@ function deleteChildElements(parent) {
 const gamesContainer = document.getElementById("games-container");
 
 // create a function that adds all data from the games array to the page
-function addGamesToPage(games) {
+function addGamesToPage(games, container) {
 
     // loop over each item in the data
     for (let i = 0; i < games.length; i++){
         const game = games[i];
-        console.log(game["img"]);
+        // create a new div element, which will become the game card
+        // about each game
         const gameDiv = document.createElement("div");
+        // add the class game-card to the list
         gameDiv.classList.add('game-card');
+        // set the inner HTML using a template literal to display some info 
         gameDiv.innerHTML = `<img class='game-img' src=${game["img"]}></img>
                              <h3>Name: ${game["name"]} </h3>
                              <p>Backers: ${game["backers"]} </p>
                              <p>Pledged: ${game["pledged"]} </p>`;
-
-        gamesContainer.append(gameDiv);
+        // append the game to the games-container
+        container.append(gameDiv);
     };
-
-        // create a new div element, which will become the game card
-
-
-        // add the class game-card to the list
-
-
-        // set the inner HTML using a template literal to display some info 
-        // about each game
+        
         // TIP: if your images are not displaying, make sure there is space
         // between the end of the src attribute and the end of the tag ("/>")
 
 
-        // append the game to the games-container
+        
 
 }
-addGamesToPage(GAMES_JSON);
+addGamesToPage(GAMES_JSON, gamesContainer);
 
 // call the function we just defined using the correct variable
 // later, we'll call this function using a different list of games
@@ -102,28 +97,27 @@ gamesCard.innerHTML =  `<p>${GAMES_JSON.length}</p>`;
  * Skills used: functions, filter
 */
 
+// use filter() to get a list of games that have not yet met their goal
+const listOfUnfundedGames = GAMES_JSON.filter( (game) => {return game['pledged'] < game['goal']});
+
 // show only games that do not yet have enough funding
 function filterUnfundedOnly() {
     deleteChildElements(gamesContainer);
 
-    // use filter() to get a list of games that have not yet met their goal
-    const listOfGames = GAMES_JSON.filter( (game) => {return game['pledged'] < game['goal']});
-    //console.log(listOfGames)
-
     // use the function we previously created to add the unfunded games to the DOM
-    addGamesToPage(listOfGames);
+    addGamesToPage(listOfUnfundedGames, gamesContainer);
 }
 
 // show only games that are fully funded
+
+// use filter() to get a list of games that have met or exceeded their goal
+const listOfFundedGames = GAMES_JSON.filter( (game) => {return game['pledged'] > game['goal']});
+
 function filterFundedOnly() {
     deleteChildElements(gamesContainer);
 
-    // use filter() to get a list of games that have met or exceeded their goal
-    const listOfGames = GAMES_JSON.filter( (game) => {return game['pledged'] > game['goal']});
-    //console.log(listOfGames)
-
     // use the function we previously created to add unfunded games to the DOM
-    addGamesToPage(listOfGames);
+    addGamesToPage(listOfFundedGames, gamesContainer);
 }
 
 // show all games
@@ -131,7 +125,7 @@ function showAllGames() {
     deleteChildElements(gamesContainer);
 
     // add all games from the JSON data to the DOM
-    addGamesToPage(GAMES_JSON);
+    addGamesToPage(GAMES_JSON, gamesContainer);
 
 }
 
@@ -155,27 +149,78 @@ allBtn.addEventListener("click", showAllGames);
 const descriptionContainer = document.getElementById("description-container");
 
 // use filter or reduce to count the number of unfunded games
-
-
 // create a string that explains the number of unfunded games using the ternary operator
+const displayStrFunded = `A total of ${listOfFundedGames.reduce( (acc, game) => {
+    return acc + game['pledged'];
+}, 0)} has been raised for ${listOfFundedGames.length} funded games.`;
+const displayStrUnfunded = `Currently ${listOfUnfundedGames.length} games remain unfunded. We need your help to fund these amazing games!`
+const displayStrNoneFunded = 'No games are funded. ' + displayStrUnfunded;
 
+const finalStr = (listOfFundedGames.length > 0) ? displayStrFunded + ' ' + ((listOfUnfundedGames.length > 0) ? displayStrUnfunded : '') : displayStrNoneFunded; 
+console.log(finalStr);
 
 // create a new DOM element containing the template string and append it to the description container
+const descriptionParagraph = document.createElement('p');
+descriptionParagraph.innerHTML = finalStr;
+descriptionContainer.append(descriptionParagraph);
+
 
 /************************************************************************************
  * Challenge 7: Select & display the top 2 games
  * Skills used: spread operator, destructuring, template literals, sort 
  */
 
-const firstGameContainer = document.getElementById("first-game");
-const secondGameContainer = document.getElementById("second-game");
+const firstGame = document.getElementById('first-game');
+const secondGame = document.getElementById('second-game');
 
-const sortedGames =  GAMES_JSON.sort( (item1, item2) => {
+//Directly sorts the existing array
+GAMES_JSON.sort( (item1, item2) => {
     return item2.pledged - item1.pledged;
 });
 
 // use destructuring and the spread operator to grab the first and second games
+const [first, second, ...rest] = GAMES_JSON;
+console.log(first);
 
 // create a new element to hold the name of the top pledge game, then append it to the correct element
 
+addGamesToPage([first], firstGame);
+
+const firstGameDiv = firstGame.getElementsByClassName('game-card');
+if (firstGameDiv[0]){
+    while (firstGameDiv[0].childElementCount > 2){
+        firstGameDiv[0].removeChild(firstGameDiv[0].lastElementChild);
+    }
+};
+
 // do the same for the runner up item
+
+addGamesToPage([second], secondGame);
+
+const secondGameDiv = secondGame.getElementsByClassName('game-card');
+if (secondGameDiv[0]){
+    while (secondGameDiv[0].childElementCount > 2){
+        secondGameDiv[0].removeChild(secondGameDiv[0].lastElementChild);
+    }
+};
+
+//fetch games in a list based on search string
+function fetchGamesWithString(s){
+    const gameNamesThatContainString = GAMES_JSON.filter( (game) => {
+        return game["name"].includes(s);
+    })
+    //console.log(gameNamesThatContainString)
+    return gameNamesThatContainString;
+}
+
+//find the search box
+const searchBox = document.getElementById("search");
+
+//search event listener
+searchBox.addEventListener("input", e => {
+    const inputStr = e.target.value;
+    const games = fetchGamesWithString(inputStr);
+    deleteChildElements(gamesContainer);
+    addGamesToPage(games, gamesContainer);
+})
+
