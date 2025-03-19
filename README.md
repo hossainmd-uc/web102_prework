@@ -26,7 +26,6 @@ The following **optional** features are implemented:
 Here's a walkthrough of implemented features:
 
 [![Watch the video](https://imgur.com/a/lnLZlMr.png)](https://drive.google.com/file/d/12lEEhZjQStelbujZv0_IHAitx9iC3aVz/view?usp=sharing)
-<img src='https://imgur.com/a/lnLZlMr.png' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 <!-- Replace this with whatever GIF tool you used! -->
 Video created with OBS.  
